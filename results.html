@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<head>
+    <title>Game Save</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/checkboxes.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section id="menu">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html"><img src="./assets/img/logo.png" width="30" height="30" /></a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">Search</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+            </ul>
+            <ul class="navbar-nav mr-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="index.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+    <div class="divider">
+        <section id="filters">
+            <h3>Filters</h3>
+            <form id="filters" action="#" class="form-group">
+                <h4>Platform:</h4>
+                <input type="checkbox" class="css-checkbox" id="platform_steam" name="platform_steam" />&nbsp;<label class="css-label lite-gray-check" for="platform_steam">Steam</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_amazon" name="platform_amazon" />&nbsp;<label class="css-label lite-gray-check" for="platform_amazon">Amazon</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_epic" name="platform_epic" />&nbsp;<label class="css-label lite-gray-check" for="platform_epic">Epic Games</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_microsoft" name="platform_microsoft" />&nbsp;<label class="css-label lite-gray-check" for="platform_microsoft">Microsoft Store</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_playstation" name="platform_playstation" />&nbsp;<label class="css-label lite-gray-check" for="platform_playstation">PlayStation Store</label><br>
+                <h4>Currency:</h4>
+                <input type="checkbox" class="css-checkbox" id="currency_cad" name="currency_cad" />&nbsp;<label class="css-label lite-gray-check" for="currency_cad">CAD</label><br>
+                <input type="checkbox" class="css-checkbox" id="currency_usd" name="currency_usd" />&nbsp;<label class="css-label lite-gray-check" for="currency_usd">USD</label><br>
+                <input type="checkbox" class="css-checkbox" id="currency_eur" name="currency_eur" />&nbsp;<label class="css-label lite-gray-check" for="currency_eur">EUR</label><br>
+                <input type="checkbox" class="css-checkbox" id="currency_gbp" name="currency_gbp" />&nbsp;<label class="css-label lite-gray-check" for="currency_gbp">GBP</label><br>
+            </form>
+            <input type="submit" class="btn btn-dark" form="filters" value="Use Filters" />
+        </section>
+        <section id="results">
+            <h1>Results for: "Fallout 4"</h1>
+
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="card-body">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Game</th>
+                                    <td>Fallout 4</td>
+                                </tr>
+                                <tr>
+                                    <th>Regular Price</th>
+                                    <td>$26.99</td>
+                                </tr>
+                                <tr>
+                                    <th>Sale Price</th>
+                                    <td>$26.99</td>
+                                </tr>
+                                <tr>
+                                    <th>Platform</th>
+                                    <td>Steam</td>
+                                </tr>
+                                <tr>
+                                    <th>Buy Now</th>
+                                    <td>Link</td>
+                                </tr>
+                                <tr>
+                                    <th>Add to Likes</th>
+                                    <td>Unlike</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="img-square-wrapper"><img class="card-img-right" src="./assets/img/Fallout_4_cover_art_3.png" /></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="card-body">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Game</th>
+                                    <td>Fallout 4</td>
+                                </tr>
+                                <tr>
+                                    <th>Regular Price</th>
+                                    <td>$19.85</td>
+                                </tr>
+                                <tr>
+                                    <th>Sale Price</th>
+                                    <td>$18.17</td>
+                                </tr>
+                                <tr>
+                                    <th>Platform</th>
+                                    <td>Amazon</td>
+                                </tr>
+                                <tr>
+                                    <th>Buy Now</th>
+                                    <td>Link</td>
+                                </tr>
+                                <tr>
+                                    <th>Add to Likes</th>
+                                    <td>Unlike</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="img-square-wrapper"><img class="card-img-right" src="./assets/img/Fallout_4_cover_art_3.png" /></div>
+                </div>
+            </div>
+
+            <button class="btn btn-dark">Show More</button>
+        </section>
+    </div>
+</body>

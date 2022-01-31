@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head>
+    <title>Game Save</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section id="menu">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html"><img src="./assets/img/logo.png" width="30" height="30" /></a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">Search</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+            </ul>
+            <ul class="navbar-nav mr-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="index.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+    <section id="users">
+        <div class="container d-flex flex-column justify-content-center align-items-center">
+            <h1>Admin Dashboard</h1>
+            <form id="usersearch" class="form-group">
+                <input class="search" type="text" id="terms" name="terms" placeholder="Find a Game..." />
+            </form>
+            <table class="admin">
+                <tr>
+                    <th>Game ID</th>
+                    <th>Game Name</th>
+                    <th>Game Details</th>
+                    <th>Fans</th>
+                    <th>Delete</th>
+                </tr>
+                <tr>
+                    <td>GS00020</td>
+                    <td>Fallout 4</td>
+                    <td>View Details</td>
+                    <td>View Users</td>
+                    <td>Update Retailer</td>
+                </tr>
+                <tr>
+                    <td>GS00021</td>
+                    <td>Guild of Dungeoneering</td>
+                    <td>View Details</td>
+                    <td>View Users</td>
+                    <td>Update Retailer</td>
+                </tr>
+                <tr>
+                    <td>GS00022</td>
+                    <td>Never Alone (Kisima Ingitchuna)</td>
+                    <td>View Details</td>
+                    <td>View Users</td>
+                    <td>Update Retailer</td>
+                </tr>
+                <tr>
+                    <td>GS00023</td>
+                    <td>Grand Theft Auto 5</td>
+                    <td>View Details</td>
+                    <td>View Users</td>
+                    <td>Update Retailer</td>
+                </tr>
+                <tr>
+                    <td>GS00024</td>
+                    <td>World of Warcraft</td>
+                    <td>View Details</td>
+                    <td>View Users</td>
+                    <td>Update Retailer</td>
+                </tr>
+            </table>
+            <div style="width: 100%;">
+                <button class="btn btn-dark float-left">&lt&lt&lt Back</button>
+                <button class="btn btn-dark float-right">Next &gt&gt&gt</button>
+            </div>
+            <a href="users.html"><button class="btn btn-dark">View Users</button></a>
+            <a href="retailers.html"><button class="btn btn-dark">View Retailers</button></a>
+        </div>
+    </section>
