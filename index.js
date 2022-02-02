@@ -49,23 +49,6 @@ app.route('/test')
       });
   });
 
-//   app.route('/test')
-// .get((req, res) => {
-//     axios
-//       .get("https://jsonplaceholder.typicode.com/posts")
-//       .then(function (result) {
-//         res.render("test", {
-//           items: result.data
-//         });
-//       })
-//       .catch(function (error) {
-//         // handle errors appropriately
-//         res.render("error", { error });
-//       });
-//   });
-
-
-
 let server = app.listen(8081, () => {
     var host = server.address().address
     var port = server.address().port

@@ -10,15 +10,15 @@
     <div>
         <% items.forEach(function(item) { %>
           <ul>
-            <li><%= item.title %></li> 
-            <li><%= item.normalPrice %></li>
-            <li><%= item.salePrice %></li>
+            <li>Game: <%= item.title %></li> 
+            <li>Regular Price: <%= item.normalPrice %></li>
+            <li>Sale Price: <%= item.salePrice %></li>
             <li><%= item.storeID %></li>
             <% if(item.storeID == 1){ %>
-                <li>Steam</li>
+                <li>Retailer: Steam</li>
                 <% } %>
-            <li><%= item.thumb %></li>
-            <li><a href="https://www.cheapshark.com/redirect?dealID={<%= item.dealID %>}" +>Link</a></li>
+            <li><img src="<%= item.thumb %>"></li>
+            <li>Buy Now: <a href="https://www.cheapshark.com/redirect?dealID={<%= item.dealID %>}" +>Link</a></li>
           </ul>
         <% }); %>
       </div>
