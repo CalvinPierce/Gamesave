@@ -17,3 +17,5 @@ Link: https://wiki.teamfortress.com/wiki/User:RJackson/StorefrontAPI#Known_metho
 https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15
 
 Link: https://apidocs.cheapshark.com/#intro
+
+Link: https://rapidapi.com/CheapShark/api/cheapshark-game-deals/ This link you can test the api endpoint in language of your choosing
