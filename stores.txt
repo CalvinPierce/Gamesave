@@ -1,0 +1,6 @@
+1, Steam
+4, Amazon
+5, GameStop
+8, Origin
+13, Uplay
+25, Epic Games
