@@ -1,53 +1,18 @@
 var express = require('express')
-const axios = require('axios')
-const { api_info } = require('./config.js')
 
-var token = api_info.TOKEN;
-var user_key = api_info.KEY;
-var host = api_info.HOST;
-var host_key = api_info.HOST_KEY;
+var indexRouter = require('./routes/index');
 
 var app = express()
 
 app.use(express.static("public"))
 app.set('view engine', 'ejs');
 
-app.route('/')
-.get((req, res) => {
-    res.render('index')
-})
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({ extended: false }));
 
-app.route('/login')
-.get((req, res) => {
-    res.render('login')
-})
-  
-app.route('/test')
-.get((req, res) => {
-    var options = {
-        method: 'GET',
-        url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
-        params: {
-          title: 'fallout new vegas',
-          output: 'json',
-          sortBy: 'Store',
-          pageSize: '60',
-          storeID: '1,4,5,8,13,25'
-        },
-        headers: {
-            host: token,
-            'x-rapidapi-key': user_key
-        }
-      };
-      
-      axios.request(options).then(function (result) {
-          res.render('test', {
-              items: result.data
-          });
-      }).catch(function (error) {
-          console.error(error);
-      });
-  });
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+app.use('/', indexRouter); //Non-user controller
 
 let server = app.listen(8081, () => {
     var host = server.address().address
