@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Game Save</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <%- include('./partials/user-header'); %>
+        <!--Adds the header for a logged in user -->
+        <section id="likes">
+            <div class="container d-flex flex-column justify-content-center align-items-center">
+                <h1 class="brand">GameSave</h1>
+                <h2>Profile: Welcome, JohnDoe</h2>
+                <a href="/edit-profile"><button type="button" class="btn btn-dark float-left">Edit Profile</button></a>
+                <p class="tagline">Liked Games:</p>
+                <div class="card">
+                    <div class="card-horizontal">
+                        <div class="card-body">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Game</th>
+                                        <td>Fallout 4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Regular Price</th>
+                                        <td>$26.99</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sale Price</th>
+                                        <td>$26.99</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Platform</th>
+                                        <td>Steam</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Buy Now</th>
+                                        <td>Link</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Add to Likes</th>
+                                        <td>Unlike</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="img-square-wrapper"><img class="card-img-right"
+                                src="./assets/img/Fallout_4_cover_art_3.png" /></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-horizontal">
+                        <div class="card-body">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Game</th>
+                                        <td>Fifa 22</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Regular Price</th>
+                                        <td>$79.99</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sale Price</th>
+                                        <td>47.99</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Platform</th>
+                                        <td>Steam</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Buy Now</th>
+                                        <td>Link</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Add to Likes</th>
+                                        <td>Unlike</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="img-square-wrapper"><img class="card-img-right"
+                                src="./assets/img/FIFA-22-New_1.png" /></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+</body>

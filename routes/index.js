@@ -28,49 +28,69 @@ router.get('/search', (req, res) => {
 
 router.post('/result', (req, res) => {
     var searchTitle = req.body.game
-            var options = {
-                method: 'GET',
-                url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
-                params: {
-                  lowerPrice: '-1',
-                  title: searchTitle,
-                  output: 'json',
-                  sortBy: 'Price',
-                  pageSize: '60',
-                  storeID: '1,4,5,8,13,25'
-                },
-                headers: {
-                    host: token,
-                    'x-rapidapi-key': user_key
-                }
-              };
-              
-              axios.request(options).then(function (result) {
-                  res.render('results', {
-                      items: result.data,
-                      searchName:  searchTitle
-                  });
-              }).catch(function (error) {
-                  console.error(error);
-              });
-          });
+    var options = {
+        method: 'GET',
+        url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
+        params: {
+            lowerPrice: '-1',
+            title: searchTitle,
+            output: 'json',
+            sortBy: 'Price',
+            pageSize: '60',
+            storeID: '1,4,5,8,13,25'
+        },
+        headers: {
+            host: token,
+            'x-rapidapi-key': user_key
+        }
+    };
 
-          router.get('/test', (req, res) => {
-              getGames("US").then(result => {
-                  //console.log(result.currentGames)
-                  //console.log(result.nextGames)
-                  res.render('test', {
-                      items: result.currentGames,
-                      future: result.nextGames
-                  })
-              });
-            });
+    axios.request(options).then(function (result) {
+        res.render('results', {
+            items: result.data,
+            searchName: searchTitle
+        });
+    }).catch(function (error) {
+        console.error(error);
+    });
+});
+
+router.get('/test', (req, res) => {
+    getGames("US").then(result => {
+        //console.log(result.currentGames)
+        //console.log(result.nextGames)
+        res.render('test', {
+            items: result.currentGames,
+            future: result.nextGames
+        })
+    });
+});
+
+router.get('/edit-profile', (req, res) => {
+    res.render('edit-profile')
+})
+
+router.get('/profile', (req, res) => {
+    res.render('profile')
+})
+
+router.get('/reset-password', (req, res) => {
+    res.render('reset-password')
+})
+
+router.get('/request-reset-password', (req, res) => {
+    res.render('request-reset-password')
+})
+
+router.get('/change-password', (req, res) => {
+    res.render('change-password')
+})
 
 // app.route('/login')
 // .get((req, res) => {
 //     res.render('login')
 // })
-  
+
 // app.route('/test')
 // .get((req, res) => {
 //     var options = {
@@ -88,7 +108,7 @@ router.post('/result', (req, res) => {
 //             'x-rapidapi-key': user_key
 //         }
 //       };
-      
+
 //       axios.request(options).then(function (result) {
 //           res.render('test', {
 //               items: result.data
@@ -115,7 +135,7 @@ router.post('/result', (req, res) => {
 //                 'x-rapidapi-key': user_key
 //             }
 //           };
-          
+
 //           axios.request(options).then(function (result) {
 //               res.render('test', {
 //                   items: result.data
@@ -124,5 +144,5 @@ router.post('/result', (req, res) => {
 //               console.error(error);
 //           });
 //       });
-  
+
 module.exports = router;
