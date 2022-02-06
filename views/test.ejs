@@ -11,14 +11,23 @@
         <% items.forEach(function(item) { %>
           <ul>
             <li>Game: <%= item.title %></li> 
-            <li>Regular Price: <%= item.normalPrice %></li>
-            <li>Sale Price: <%= item.salePrice %></li>
-            <li><%= item.storeID %></li>
-            <% if(item.storeID == 1){ %>
-                <li>Retailer: Steam</li>
-                <% } %>
-            <li><img src="<%= item.thumb %>"></li>
-            <li>Buy Now: <a href="https://www.cheapshark.com/redirect?dealID={<%= item.dealID %>}" +>Link</a></li>
+            <li>Regular Price: <%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"/g, '') %></li>
+            <li>Sale Price: Free</li>
+            <li>Retailer: Epic Games</li>
+            <li><img src="<%= item.keyImages[0].url %>" width="250" height="250"></li>
+            <li>Buy Now: <a href="https://www.epicgames.com/store/en-US/p/<%= item.urlSlug %>" >Link</a></li>
+          </ul>
+        <% }); %>
+      </div>
+      <div>
+        <% future.forEach(function(item) { %>
+          <ul>
+            <li>Game: <%= item.title %></li> 
+            <li>Regular Price: <%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"/g, '') %></li>
+            <li>Sale Price: Free</li>
+            <li>Retailer: Epic Games</li>
+            <li><img src="<%= item.keyImages[0].url %>" width="250" height="250"></li>
+            <li>Buy Now: <a href="https://www.epicgames.com/store/en-US/p/<%= item.urlSlug %>" >Link</a></li>
           </ul>
         <% }); %>
       </div>

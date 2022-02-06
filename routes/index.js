@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios')
+const { getGames } = require("epic-free-games");
 
 const { api_info } = require('../config.js')
 
@@ -53,6 +54,17 @@ router.post('/result', (req, res) => {
                   console.error(error);
               });
           });
+
+          router.get('/test', (req, res) => {
+              getGames("US").then(result => {
+                  console.log(result.currentGames)
+                  //console.log(result.nextGames)
+                  res.render('test', {
+                      items: result.currentGames,
+                      future: result.nextGames
+                  })
+              });
+            });
 
 // app.route('/login')
 // .get((req, res) => {

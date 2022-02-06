@@ -135,7 +135,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>Results</title>
 </head>
 <body>
     <%- include('./partials/non-user-header'); %> 
@@ -144,19 +144,20 @@
             <h3>Filters</h3>
             <form id="filters" action="#" class="form-group">
                 <h4>Platform:</h4>
-                <input type="checkbox" class="css-checkbox" id="platform_steam" name="platform_steam" />&nbsp;<label class="css-label lite-gray-check" for="platform_steam">Steam</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_amazon" name="platform_amazon" />&nbsp;<label class="css-label lite-gray-check" for="platform_amazon">Amazon</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_epic" name="platform_epic" />&nbsp;<label class="css-label lite-gray-check" for="platform_epic">Epic Games</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_origin" name="platform_origin" />&nbsp;<label class="css-label lite-gray-check" for="platform_origin">Origin</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_gamestop" name="platform_gamestop" />&nbsp;<label class="css-label lite-gray-check" for="platform_gamestop">GameStop</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_uplay" name="platform_uplay" />&nbsp;<label class="css-label lite-gray-check" for="platform_uplay">Uplay</label><br>
-                <h4>Currency:</h4>
-                <input type="checkbox" class="css-checkbox" id="currency_cad" name="currency_cad" />&nbsp;<label class="css-label lite-gray-check" for="currency_cad">CAD</label><br>
-                <input type="checkbox" class="css-checkbox" id="currency_usd" name="currency_usd" />&nbsp;<label class="css-label lite-gray-check" for="currency_usd">USD</label><br>
-                <input type="checkbox" class="css-checkbox" id="currency_eur" name="currency_eur" />&nbsp;<label class="css-label lite-gray-check" for="currency_eur">EUR</label><br>
-                <input type="checkbox" class="css-checkbox" id="currency_gbp" name="currency_gbp" />&nbsp;<label class="css-label lite-gray-check" for="currency_gbp">GBP</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_steam" name="platform_steam" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_steam">Steam</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_epic" name="platform_epic" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_epic">Epic Games</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_origin" name="platform_origin" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_origin">Origin</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_gamestop" name="platform_gamestop" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_gamestop">GameStop</label><br>
+                <input type="checkbox" class="css-checkbox" id="platform_uplay" name="platform_uplay" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_uplay">Uplay</label><br>
+                <button type="submit" class="btn btn-dark" value="Use Filters">Use Filters</button>
             </form>
-            <input type="submit" class="btn btn-dark" form="filters" value="Use Filters" />
+            <h4>Currency:</h4>
+            <div id="currency">
+            <input type="checkbox" class="css-checkbox" id="usd" name="currency[]" checked/>&nbsp;<label class="css-label lite-gray-check" for="usd">USD</label><br>
+            <input type="checkbox" class="css-checkbox" id="cad" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="cad">CAD</label><br>
+            <input type="checkbox" class="css-checkbox" id="eur" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="eur">EUR</label><br>
+            <input type="checkbox" class="css-checkbox" id="gbp" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="gbp">GBP</label><br>
+            </div>
         </section>
 
         <section id="results">
@@ -174,19 +175,16 @@
                                 </tr>
                                 <tr>
                                     <th>Regular Price</th>
-                                    <td><%= item.normalPrice %></td>
+                                    <td class="retailPrice">$<%= item.normalPrice %></td>
                                 </tr>
                                 <tr>
                                     <th>Sale Price</th>
-                                    <td><%= item.salePrice %></td>
+                                    <td class="salePrice">$<%= item.salePrice %></td>
                                 </tr>
                                 <tr>
                                     <th>Platform</th>
                                     <% if(item.storeID == 1){ %>
                                         <td>Steam</td>
-                                    <% } %>
-                                    <% if(item.storeID == 4){ %>
-                                        <td>Amazon</td>
                                     <% } %>
                                     <% if(item.storeID == 5){ %>
                                         <td>GameStop</td>
@@ -219,4 +217,10 @@
         </section>
       </div>
 </body>
+<script>
+
+$('input[type="checkbox"]').on('change', function() {
+    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+});
+    </script>   
 </html>
