@@ -57,7 +57,7 @@ router.post('/result', (req, res) => {
 
           router.get('/test', (req, res) => {
               getGames("US").then(result => {
-                  console.log(result.currentGames)
+                  //console.log(result.currentGames)
                   //console.log(result.nextGames)
                   res.render('test', {
                       items: result.currentGames,
