@@ -8,28 +8,24 @@
 </head>
 <body>
     <div>
-        <% items.forEach(function(item) { %>
           <ul>
-            <li>Game: <%= item.title %></li> 
-            <li>Regular Price: <%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"/g, '') %></li>
+            <li>Game: <%= items.title %></li> 
+            <li>Regular Price: <%= JSON.stringify(items.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></li>
             <li>Sale Price: Free</li>
             <li>Retailer: Epic Games</li>
-            <li><img src="<%= item.keyImages[0].url %>" width="250" height="250"></li>
-            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= item.urlSlug %>" >Link</a></li>
+            <li><img src="<%= items.keyImages[0].url %>" width="250" height="250"></li>
+            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= items.urlSlug %>" >Link</a></li>
           </ul>
-        <% }); %>
       </div>
       <div>
-        <% future.forEach(function(item) { %>
           <ul>
-            <li>Game: <%= item.title %></li> 
-            <li>Regular Price: <%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"/g, '') %></li>
+            <li>Game: <%= future.title %></li> 
+            <li>Regular Price: <%= JSON.stringify(future.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></li>
             <li>Sale Price: Free</li>
             <li>Retailer: Epic Games</li>
-            <li><img src="<%= item.keyImages[0].url %>" width="250" height="250"></li>
-            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= item.urlSlug %>" >Link</a></li>
+            <li><img src="<%= future.keyImages[0].url %>" width="250" height="250"></li>
+            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= future.urlSlug %>" >Link</a></li>
           </ul>
-        <% }); %>
       </div>
 </body>
 </html>

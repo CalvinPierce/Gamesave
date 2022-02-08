@@ -46,10 +46,20 @@
                 <input type="email" id="email" name="email" placeholder="johndoe@email.com" /><br>
                 <input type="text" id="username" name="username" placeholder="JohnDoe" /><br>
                 <input type="password" id="password" name="password" placeholder="Password" /><br>
-                <input type="checkbox" id="showpass" name="showpass" />
+                <input type="checkbox" id="showpass" name="showpass" onclick="showPassword()"/>
                 <label for="showpass">Show Password</label><br>
                 <div style="text-align: center;"><button type="submit" class="btn btn-dark" form="signupform" value="Sign Up">Sign Up</button></div>
             </form>
         </div>
     </section>
+    <script>
+        function showPassword() {
+            let x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </body>

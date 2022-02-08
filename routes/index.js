@@ -3,7 +3,8 @@ var router = express.Router();
 const axios = require('axios')
 const { getGames } = require("epic-free-games");
 
-const { api_info } = require('../config.js')
+const { api_info } = require('../config.js');
+const { response } = require('express');
 
 var token = api_info.TOKEN;
 var user_key = api_info.KEY;
@@ -55,16 +56,39 @@ router.post('/result', (req, res) => {
     });
 });
 
-router.get('/test', (req, res) => {
-    getGames("US").then(result => {
-        //console.log(result.currentGames)
-        //console.log(result.nextGames)
+const getFreeGames = async () => {
+    let freeNow = [] 
+    let freeNext = []
+    const data = await axios.get(
+        `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
+    );
+    freeNow = data.data.data.Catalog.searchStore.elements[0]
+    freeNext = data.data.data.Catalog.searchStore.elements[1]
+    //console.log(freeNow)
+    //console.log(freeNext)
+    return { freeNow, freeNext}
+}
+
+router.get('/test', async (req, res) => {
+    getFreeGames().then(result => {
+        //console.log(result.freeNow)
         res.render('test', {
-            items: result.currentGames,
-            future: result.nextGames
+            items: result.freeNow,
+            future: result.freeNext
         })
-    });
-});
+    })
+})
+
+// router.get('/test', (req, res) => {
+//     getGames("CA").then(result => {
+//         console.log(result.currentGames)
+//         //console.log(result.nextGames)
+//         res.render('test', {
+//             items: result.currentGames,
+//             future: result.nextGames
+//         })
+//     });
+// });
 
 router.get('/edit-profile', (req, res) => {
     res.render('edit-profile')
