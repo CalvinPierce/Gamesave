@@ -26,8 +26,9 @@
             </section>
             <div class="divider">
                 <section id="latest-deals">
-                    <h2>Latest Deals</h2>
+                    <h2>Epic Free Games</h2>
 
+                    <h2>This Week</h2>
                     <div class="card">
                         <div class="card-horizontal">
                             <div class="card-body">
@@ -35,23 +36,23 @@
                                     <tbody>
                                         <tr>
                                             <th>Game</th>
-                                            <td>Guild of Dungeoneering</td>
+                                            <td><%= items.title %></td>
                                         </tr>
                                         <tr>
                                             <th>Regular Price</th>
-                                            <td>$16.99</td>
+                                            <td><%= JSON.stringify(items.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
                                         </tr>
                                         <tr>
                                             <th>Sale Price</th>
                                             <td>Free</td>
                                         </tr>
                                         <tr>
-                                            <th>Platform</th>
+                                            <th>Retailer</th>
                                             <td>Epic Games</td>
                                         </tr>
                                         <tr>
                                             <th>Buy Now</th>
-                                            <td>Link</td>
+                                            <td><a href="https://www.epicgames.com/store/en-US/p/<%= items.urlSlug %>" >Link</a></td>
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
@@ -61,11 +62,12 @@
                                 </table>
                             </div>
                             <div class="img-square-wrapper"><img class="card-img-right"
-                                    src="/assets/img/egs-guildofdungeoneering-gambrinous-g1c-00-1920x1080-0a01ebc2f6fb_1.png" />
+                                src="<%= items.keyImages[0].url %>" width="250" height="250" />
                             </div>
                         </div>
                     </div>
 
+                    <h2>Next Week</h2>
                     <div class="card">
                         <div class="card-horizontal">
                             <div class="card-body">
@@ -73,23 +75,23 @@
                                     <tbody>
                                         <tr>
                                             <th>Game</th>
-                                            <td>Never Alone (Kisima Ingitchuna)</td>
+                                            <td><%= future.title %></td>
                                         </tr>
                                         <tr>
                                             <th>Regular Price</th>
-                                            <td>$16.99</td>
+                                            <td><%= JSON.stringify(future.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
                                         </tr>
                                         <tr>
                                             <th>Sale Price</th>
                                             <td>Free</td>
                                         </tr>
                                         <tr>
-                                            <th>Platform</th>
+                                            <th>Retailer</th>
                                             <td>Epic Games</td>
                                         </tr>
                                         <tr>
                                             <th>Buy Now</th>
-                                            <td>Link</td>
+                                            <td><a href="https://www.epicgames.com/store/en-US/p/<%= future.urlSlug %>" >Link</a></td>
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
@@ -99,15 +101,53 @@
                                 </table>
                             </div>
                             <div class="img-square-wrapper"><img class="card-img-right"
-                                    src="/assets/img/never alone.jpg" /></div>
+                                src="<%= future.keyImages[0].url %>" width="250" height="250" /></div>
                         </div>
                     </div>
 
                 </section>
                 <section id="featured">
                     <h2>Featured</h2>
+                    <% steam.forEach(function(item) { %>
 
-                    <div class="card">
+                        <div class="card">
+                            <div class="card-horizontal">
+                                <div class="card-body">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th>Game</th>
+                                                <td><%= item.name %></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Regular Price</th>
+                                                <td class="retailPrice">$<%= item.original_price %></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Sale Price</th>
+                                                <td class="salePrice">$<%= item.final_price %></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Platform</th>
+                                                <td>Steam</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Buy Now</th>
+                                                <td><a href="https://store.steampowered.com/app/<%= item.id %>" >Link</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Add to Likes</th>
+                                                <td>Like</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="img-square-wrapper"><img class="card-img-right" src="<%= item.small_capsule_image %>" /></div>
+                            </div>
+                        </div>
+                      <% }); %>
+
+                    <!-- <div class="card">
                         <div class="card-horizontal">
                             <div class="card-body">
                                 <table>
@@ -134,7 +174,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Unlike</td>
+                                            <td>Like</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -159,7 +199,7 @@
                                         </tr>
                                         <tr>
                                             <th>Sale Price</th>
-                                            <td>47.99</td>
+                                            <td>$47.99</td>
                                         </tr>
                                         <tr>
                                             <th>Platform</th>
@@ -171,7 +211,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Unlike</td>
+                                            <td>Likes</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -179,7 +219,7 @@
                             <div class="img-square-wrapper"><img class="card-img-right"
                                     src="../assets/img/FIFA-22-New_1.png" /></div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </section>
             </div>

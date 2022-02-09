@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios')
-const { getGames } = require("epic-free-games");
 
 const { api_info } = require('../config.js');
 const { response } = require('express');
@@ -12,7 +11,13 @@ var host = api_info.HOST;
 var host_key = api_info.HOST_KEY;
 
 router.get('/', (req, res, next) => {
-    res.render('index')
+    getIndexGames().then(result => {
+        res.render('index', {
+            items: result.freeNow,
+            future: result.freeNext,
+            steam: result.games
+        })
+    })
 })
 
 router.get('/login', (req, res) => {
@@ -69,25 +74,58 @@ const getFreeGames = async () => {
     return { freeNow, freeNext}
 }
 
-router.get('/test', async (req, res) => {
-    getFreeGames().then(result => {
-        //console.log(result.freeNow)
-        res.render('test', {
-            items: result.freeNow,
-            future: result.freeNext
-        })
-    })
-})
+const getSteamFeatured = async () => {
+    let games = [] 
+    const data = await axios.get(
+        'https://store.steampowered.com/api/featuredcategories'
+    );
+    games = data.data.specials.items
+    return { games }
+}
 
-// router.get('/test', (req, res) => {
-//     getGames("CA").then(result => {
-//         console.log(result.currentGames)
-//         //console.log(result.nextGames)
+const getIndexGames = async () => {
+    let games = [] 
+    let freeNow = [] 
+    let freeNext = []
+    const steam = await axios.get(
+        'https://store.steampowered.com/api/featuredcategories'
+    );
+
+    const data = await axios.get(
+        `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
+    );
+    freeNow = data.data.data.Catalog.searchStore.elements[0]
+    freeNext = data.data.data.Catalog.searchStore.elements[1]
+    games = steam.data.specials.items
+    return { games, freeNow, freeNext }
+}
+
+// router.get('/test', async (req, res) => {
+//     getFreeGames().then(result => {
+//         //console.log(result.freeNow)
 //         res.render('test', {
-//             items: result.currentGames,
-//             future: result.nextGames
+//             items: result.freeNow,
+//             future: result.freeNext
 //         })
-//     });
+//     })
+// })
+
+// router.get('/test', async (req, res) => {
+//     // getSteamFeatured().then(result => {
+//     //     res.render('test', {
+//     //         items: result.games
+//     //     })
+//     // })
+//     let games = []
+//     getSteamFeatured().then(result => {
+//         // res.render('test', {
+//         //     items: result.games
+//         // })
+//         //console.log(result.games)
+//         games = result.games
+//     })
+//     console.log(games)
+//     //res.render('test')
 // });
 
 router.get('/edit-profile', (req, res) => {

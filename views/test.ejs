@@ -7,25 +7,45 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-          <ul>
-            <li>Game: <%= items.title %></li> 
-            <li>Regular Price: <%= JSON.stringify(items.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></li>
-            <li>Sale Price: Free</li>
-            <li>Retailer: Epic Games</li>
-            <li><img src="<%= items.keyImages[0].url %>" width="250" height="250"></li>
-            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= items.urlSlug %>" >Link</a></li>
-          </ul>
-      </div>
-      <div>
-          <ul>
-            <li>Game: <%= future.title %></li> 
-            <li>Regular Price: <%= JSON.stringify(future.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></li>
-            <li>Sale Price: Free</li>
-            <li>Retailer: Epic Games</li>
-            <li><img src="<%= future.keyImages[0].url %>" width="250" height="250"></li>
-            <li>Get Now: <a href="https://www.epicgames.com/store/en-US/p/<%= future.urlSlug %>" >Link</a></li>
-          </ul>
-      </div>
+
+  <% items.forEach(function(item) { %>
+
+    <div class="card">
+        <div class="card-horizontal">
+            <div class="card-body">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Game</th>
+                            <td><%= item.name %></td>
+                        </tr>
+                        <tr>
+                            <th>Regular Price</th>
+                            <td class="retailPrice">$<%= item.original_price %></td>
+                        </tr>
+                        <tr>
+                            <th>Sale Price</th>
+                            <td class="salePrice">$<%= item.final_price %></td>
+                        </tr>
+                        <tr>
+                            <th>Platform</th>
+                            <td>Steam</td>
+                        </tr>
+                        <tr>
+                            <th>Buy Now</th>
+                            <td><a href="https://store.steampowered.com/app/<%= item.id %>" >Link</a></td>
+                        </tr>
+                        <tr>
+                            <th>Add to Likes</th>
+                            <td>Like</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="img-square-wrapper"><img class="card-img-right" src="<%= item.small_capsule_image %>" /></div>
+        </div>
+    </div>
+  <% }); %>
+      
 </body>
 </html>
