@@ -56,7 +56,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Likes</td>
+                                            <td>Like</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -95,7 +95,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Likes</td>
+                                            <td>Like</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -121,11 +121,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Regular Price</th>
-                                                <td class="retailPrice">$<%= item.original_price %></td>
+                                                <td class="retailPrice">$<%= item.original_price.toString().substring(0,item.original_price.toString().length-2)+"."+item.original_price.toString().substring(item.original_price.toString().length-2) %></td>
                                             </tr>
                                             <tr>
                                                 <th>Sale Price</th>
-                                                <td class="salePrice">$<%= item.final_price %></td>
+                                                <td class="salePrice">$<%= item.final_price.toString().substring(0,item.final_price.toString().length-2)+"."+item.final_price.toString().substring(item.final_price.toString().length-2) %></td>
                                             </tr>
                                             <tr>
                                                 <th>Platform</th>

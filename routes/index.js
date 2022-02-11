@@ -12,6 +12,7 @@ var host_key = api_info.HOST_KEY;
 
 router.get('/', (req, res, next) => {
     getIndexGames().then(result => {
+        getSteamFeatured()
         res.render('index', {
             items: result.freeNow,
             future: result.freeNext,
@@ -67,8 +68,18 @@ const getFreeGames = async () => {
     const data = await axios.get(
         `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
     );
-    freeNow = data.data.data.Catalog.searchStore.elements[0]
-    freeNext = data.data.data.Catalog.searchStore.elements[1]
+    data.data.data.Catalog.searchStore.elements.forEach((element) => {
+        if(element.promotions){
+            if(element.promotions.promotionalOffers.length != 0){
+                freeNow = element
+            } else {
+                freeNext = element
+            }
+        }
+    })
+    console.log(freeNext)
+    //freeNow = data.data.data.Catalog.searchStore.elements[0]
+    //freeNext = data.data.data.Catalog.searchStore.elements[1]
     //console.log(freeNow)
     //console.log(freeNext)
     return { freeNow, freeNext}
@@ -80,6 +91,7 @@ const getSteamFeatured = async () => {
         'https://store.steampowered.com/api/featuredcategories'
     );
     games = data.data.specials.items
+    console.log(games)
     return { games }
 }
 
@@ -94,8 +106,15 @@ const getIndexGames = async () => {
     const data = await axios.get(
         `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
     );
-    freeNow = data.data.data.Catalog.searchStore.elements[0]
-    freeNext = data.data.data.Catalog.searchStore.elements[1]
+    data.data.data.Catalog.searchStore.elements.forEach((element) => {
+        if(element.promotions){
+            if(element.promotions.promotionalOffers.length != 0){
+                freeNow = element
+            } else {
+                freeNext = element
+            }
+        }
+    })
     games = steam.data.specials.items
     return { games, freeNow, freeNext }
 }
