@@ -2,6 +2,7 @@
 
 <head>
     <title>Game Save</title>
+    <link rel="icon" href="../logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/styles.css" />
@@ -17,7 +18,11 @@
 </head>
 
 <body>
-    <%- include('./partials/non-user-header'); %>
+    <% if(login){ %>
+        <%- include('./partials/user-header'); %>
+    <% } else { %>
+        <%- include('./partials/non-user-header'); %>
+    <% } %>
         <!--Adds the header for a non logged in user -->
         <div class="container">
             <section id="title-bar">
@@ -29,6 +34,7 @@
                     <h2>Epic Free Games</h2>
 
                     <h2>This Week</h2>
+                    <% items.forEach(function(item) { %>
                     <div class="card">
                         <div class="card-horizontal">
                             <div class="card-body">
@@ -36,11 +42,11 @@
                                     <tbody>
                                         <tr>
                                             <th>Game</th>
-                                            <td><%= items.title %></td>
+                                            <td><%= item.title %></td>
                                         </tr>
                                         <tr>
                                             <th>Regular Price</th>
-                                            <td><%= JSON.stringify(items.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
+                                            <td><%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
                                         </tr>
                                         <tr>
                                             <th>Sale Price</th>
@@ -62,12 +68,15 @@
                                 </table>
                             </div>
                             <div class="img-square-wrapper"><img class="card-img-right"
-                                src="<%= items.keyImages[0].url %>" width="250" height="250" />
+                                src="<%= item.keyImages[0].url %>" width="250" height="250" alt="Game Picture Unavailable"/>
                             </div>
                         </div>
                     </div>
+                    <% }); %>
+
 
                     <h2>Next Week</h2>
+                    <% future.forEach(function(item) { %>
                     <div class="card">
                         <div class="card-horizontal">
                             <div class="card-body">
@@ -75,11 +84,11 @@
                                     <tbody>
                                         <tr>
                                             <th>Game</th>
-                                            <td><%= future.title %></td>
+                                            <td><%= item.title %></td>
                                         </tr>
                                         <tr>
                                             <th>Regular Price</th>
-                                            <td><%= JSON.stringify(future.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
+                                            <td><%= JSON.stringify(item.price.totalPrice.fmtPrice.originalPrice).replace(/"|CA/g, '') %></td>
                                         </tr>
                                         <tr>
                                             <th>Sale Price</th>
@@ -101,9 +110,10 @@
                                 </table>
                             </div>
                             <div class="img-square-wrapper"><img class="card-img-right"
-                                src="<%= future.keyImages[0].url %>" width="250" height="250" /></div>
+                                src="<%= item.keyImages[0].url %>" width="250" height="250" alt="Game Picture Unavailable"/></div>
                         </div>
                     </div>
+                    <% }); %>
 
                 </section>
                 <section id="featured">

@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <section id="menu">
+    <!-- <section id="menu">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="/"><img src="./assets/img/logo.png" width="30" height="30" /></a>
             <ul class="navbar-nav mr-auto">
@@ -38,11 +38,15 @@
                 </li>
             </ul>
         </nav>
-    </section>
+    </section> -->
+    <%- include('./partials/non-user-header'); %>
     <section id="signup">
         <div class="container d-flex flex-column justify-content-center align-items-center">
             <h1>Sign Up</h1>
-            <form id="signupform" action="#" class="form-group">
+            <% if (messages) { %>
+                <p><%= messages.error %></p>
+            <% } %>
+            <form id="signupform" action="/register" method="POST" class="form-group">
                 <input type="email" id="email" name="email" placeholder="johndoe@email.com" /><br>
                 <input type="text" id="username" name="username" placeholder="JohnDoe" /><br>
                 <input type="password" id="password" name="password" placeholder="Password" /><br>

@@ -5,6 +5,14 @@ const axios = require('axios')
 const { api_info } = require('../config.js');
 const { response } = require('express');
 
+const {
+    checkAuthenticated,
+    checkNotAuthenticated,
+} = require("../auth");
+const User = require('../models/User')
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+
 var token = api_info.TOKEN;
 var user_key = api_info.KEY;
 var host = api_info.HOST;
@@ -12,11 +20,12 @@ var host_key = api_info.HOST_KEY;
 
 router.get('/', (req, res, next) => {
     getIndexGames().then(result => {
-        getSteamFeatured()
+        //getSteamFeatured()
         res.render('index', {
             items: result.freeNow,
             future: result.freeNext,
-            steam: result.games
+            steam: result.games,
+            login: req.isAuthenticated()
         })
     })
 })
@@ -25,9 +34,40 @@ router.get('/login', (req, res) => {
     res.render('login')
 })
 
-router.get('/register', (req, res) => {
+router.post("/login", checkNotAuthenticated, passport.authenticate("local", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+    failureFlash: true,
+})
+);
+
+router.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register')
 })
+
+router.post("/register", checkNotAuthenticated, async (req, res) => {
+    const userFoundEmail = await User.findOne({ email: req.body.email });
+    const userFoundUsername = await User.findOne({ username: req.body.username });
+
+    if (userFoundEmail || userFoundUsername) {
+        req.flash("error", "User with that email or username already exists");
+        res.redirect("/register");
+    } else {
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            const user = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword,
+            });
+            await user.save();
+            res.redirect("/login");
+        } catch (error) {
+            console.log(error);
+            res.redirect("/register");
+        }
+    }
+});
 
 router.get('/search', (req, res) => {
     res.render('search')
@@ -44,7 +84,7 @@ router.post('/result', (req, res) => {
             output: 'json',
             sortBy: 'Price',
             pageSize: '60',
-            storeID: '1,4,5,8,13,25'
+            storeID: '1,4,5,8,13,25,31'
         },
         headers: {
             host: token,
@@ -63,14 +103,14 @@ router.post('/result', (req, res) => {
 });
 
 const getFreeGames = async () => {
-    let freeNow = [] 
+    let freeNow = []
     let freeNext = []
     const data = await axios.get(
         `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
     );
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
-        if(element.promotions){
-            if(element.promotions.promotionalOffers.length != 0){
+        if (element.promotions) {
+            if (element.promotions.promotionalOffers.length != 0) {
                 freeNow = element
             } else {
                 freeNext = element
@@ -82,13 +122,13 @@ const getFreeGames = async () => {
     //freeNext = data.data.data.Catalog.searchStore.elements[1]
     //console.log(freeNow)
     //console.log(freeNext)
-    return { freeNow, freeNext}
+    return { freeNow, freeNext }
 }
 
 const getSteamFeatured = async () => {
-    let games = [] 
+    let games = []
     const data = await axios.get(
-        'https://store.steampowered.com/api/featuredcategories'
+        'https://store.steampowered.com/api/featuredcategories?cc=ca'
     );
     games = data.data.specials.items
     console.log(games)
@@ -96,25 +136,27 @@ const getSteamFeatured = async () => {
 }
 
 const getIndexGames = async () => {
-    let games = [] 
-    let freeNow = [] 
+    let games = []
+    let freeNow = []
     let freeNext = []
     const steam = await axios.get(
-        'https://store.steampowered.com/api/featuredcategories'
+        'https://store.steampowered.com/api/featuredcategories?cc=ca'
     );
 
     const data = await axios.get(
         `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
     );
+    //console.log(data.data.data.Catalog.searchStore.elements)
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
-        if(element.promotions){
-            if(element.promotions.promotionalOffers.length != 0){
-                freeNow = element
+        if (element.promotions) {
+            if (element.promotions.promotionalOffers.length != 0) {
+                freeNow.push(element)
             } else {
-                freeNext = element
+                freeNext.push(element)
             }
         }
     })
+    //console.log(freeNow)
     games = steam.data.specials.items
     return { games, freeNow, freeNext }
 }
@@ -151,8 +193,8 @@ router.get('/edit-profile', (req, res) => {
     res.render('edit-profile')
 })
 
-router.get('/profile', (req, res) => {
-    res.render('profile')
+router.get('/profile', checkAuthenticated, (req, res) => {
+    res.render('profile', { username: req.user.username })
 })
 
 router.get('/reset-password', (req, res) => {
