@@ -22,8 +22,12 @@
         <section id="login">
             <div class="container d-flex flex-column justify-content-center align-items-center">
                 <h1>Sign In</h1>
+                <% if (messages) { %>
+                    <p><%= messages.error %></p>
+                    <p><%= messages.success %></p>
+                <% } %>
                 <form id="loginform" action="/login" method="POST" class="form-group">
-                    <input type="email" id="email" name="email" placeholder="johndoe@email.com" /><br>
+                    <input type="email" id="email" name="email" placeholder="email@email.com" /><br>
                     <input type="password" id="password" name="password" placeholder="Password" /><br>
                     <input type="checkbox" id="showpass" onclick="showPassword()" name="showpass" />
                     <label for="showpass">Show Password</label><br>

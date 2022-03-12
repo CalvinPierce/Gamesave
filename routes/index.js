@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios')
+const Token = require("../models/Token");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 
 const { api_info } = require('../config.js');
 const { response } = require('express');
+
 
 const {
     checkAuthenticated,
@@ -202,11 +206,62 @@ router.get('/profile', checkAuthenticated, (req, res) => {
     res.render('profile', { username: req.user.username })
 })
 
-router.get('/reset-password', (req, res) => {
+router.get('/reset-password/:userId/:token', (req, res) => {
+    res.render('reset-password', { userId: req.params.userId, token: req.params.token })
+})
+
+router.post('/reset-password', async (req, res) => {
+    const user = await User.findById(req.body.userId);
+    if (!user) {
+        req.flash("error", "User cannot be found");
+        res.redirect("/request-reset-password");
+    } else {
+        const token = await Token.findOne({
+            userId: user._id,
+            token: req.body.token,
+        });
+        if (!token){
+            req.flash("error", "Password reset expired please send new email");
+            res.redirect("/request-reset-password");
+        } else {
+            if(req.body.password === req.body.confirmpassword){ 
+                const hashedPassword = await bcrypt.hash(req.body.password, 10); 
+                user.password = hashedPassword;
+                await user.save();
+                req.flash("success", "Password changed successfully. Please login");
+                res.redirect("/login")
+            } else {
+                req.flash("error", "Passwords do not match! Please send new password reset email");
+                res.redirect("/request-reset-password");
+            }
+        }
+    }
     res.render('reset-password')
 })
 
 router.get('/request-reset-password', (req, res) => {
+    res.render('request-reset-password')
+})
+
+router.post('/request-reset-password', async (req, res) => {
+    const userFoundEmail = await User.findOne({ email: req.body.email });
+    if (!userFoundEmail) {
+        req.flash("error", "User with that email cannot be found or doesn't exist.");
+        res.redirect("/request-reset-password");
+    } else {
+        let token = await Token.findOne({ userId: userFoundEmail._id });
+        if (!token) {
+            token = await new Token({
+                userId: userFoundEmail._id,
+                token: crypto.randomBytes(32).toString("hex"),
+            }).save();
+        }
+
+        const link = `${process.env.BASE_URL}/reset-password/${userFoundEmail._id}/${token.token}`;
+        await sendEmail(userFoundEmail.email, "Password reset", link);
+        req.flash("success", "Password reset link sent to your email.");
+        res.redirect("/request-reset-password");
+    }
     res.render('request-reset-password')
 })
 
