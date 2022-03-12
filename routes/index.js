@@ -69,6 +69,11 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
     }
 });
 
+router.delete("/logout", (req, res) => {
+    req.logOut();
+    res.redirect("/");
+});  
+
 router.get('/search', (req, res) => {
     res.render('search')
 })
@@ -205,7 +210,32 @@ router.get('/request-reset-password', (req, res) => {
     res.render('request-reset-password')
 })
 
-router.get('/change-password', (req, res) => {
+router.post('/change-password', checkAuthenticated, async (req, res) => {
+    let userFound = await User.findById(req.user._id);
+
+    if (!userFound) {
+        req.flash("error", "User not found");
+        res.redirect("/login");
+    } else {
+        try {
+            if(req.body.password === req.body.confirmpassword){ 
+                const hashedPassword = await bcrypt.hash(req.body.password, 10); 
+                userFound.password = hashedPassword;
+                await userFound.save();
+                req.flash("success", "Password changed successfully!");
+                res.redirect("/profile")
+            } else {
+                req.flash("error", "Passwords do not match!");
+                res.redirect("/change-password");
+            }
+        } catch (error) {
+            console.log(error);
+            res.redirect("/change-password");
+        }
+    }
+})
+
+router.get('/change-password', checkAuthenticated, async (req, res) => {
     res.render('change-password')
 })
 

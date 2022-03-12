@@ -23,6 +23,9 @@
             <div class="container d-flex flex-column justify-content-center align-items-center">
                 <h1 class="brand">GameSave</h1>
                 <h1>Hello <%= username %></h1>
+                <% if (messages) { %>
+                    <p><%= messages.success %></p>
+                <% } %>
                 <h2>Profile: Welcome, JohnDoe</h2>
                 <a href="/edit-profile"><button type="button" class="btn btn-dark float-left">Edit Profile</button></a>
                 <p class="tagline">Liked Games:</p>

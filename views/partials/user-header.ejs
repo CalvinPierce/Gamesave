@@ -8,9 +8,16 @@
         </ul>
         <ul class="navbar-nav mr-right">
             <li class="nav-item dropdown">
-                <a class="nav-link" href="/logout" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                <form action="/logout?_method=DELETE" id="logout" method="POST">
+                    <a class="nav-link" href="#" onclick="logout()" id="navbarDropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Sign Out</a>
+                  </form>
             </li>
         </ul>
     </nav>
 </section>
+<script>
+    function logout() {
+        document.getElementById("logout").submit();
+    }
+</script>
