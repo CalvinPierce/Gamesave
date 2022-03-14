@@ -1,26 +1,24 @@
 const nodemailer = require("nodemailer");
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, html) => {
     try {
         const transporter = nodemailer.createTransport({
             host: 'smtp-mail.outlook.com',
             port: 587,
             auth: {
-                user: "calvinpierce@hotmail.com",
-                pass: "Mr.hockey123"
+                user: "GameSavePasswordRecovery@outlook.com",
+                pass: "9)'fuvg4-ZmbHAfz"
             }
         });
 
         await transporter.sendMail({
-            from: "calvinpierce@hotmail.com",
+            from: "GameSavePasswordRecovery@outlook.com",
             to: email,
             subject: subject,
-            text: text,
+            html: '<p>Click <a href=' + html + '>here</a> to reset your password</p>',
         });
 
-        console.log("email sent sucessfully");
     } catch (error) {
-        console.log(error, "email not sent");
     }
 };
 
