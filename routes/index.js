@@ -14,6 +14,10 @@ const {
     checkNotAuthenticated,
 } = require("../auth");
 const User = require('../models/User')
+//const Game = require('../models/Game')
+const Epic = require('../models/Epic')
+const Steam = require('../models/Steam')
+
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
@@ -33,6 +37,57 @@ router.get('/', (req, res, next) => {
         })
     })
 })
+
+
+
+// updates for grabbing user liked games data from index page
+
+router.post('/', checkAuthenticated, async (req, res) => {
+    //const liked = {gamename: gamename, price: price, retailer: retailer, username: username};
+    //console.log(liked);
+    //const username = await User.findById(req.user.username);
+    
+    try {
+        const game = new Epic({
+            gamename: req.body.gamename,
+            regular_price: req.body.regular_price,
+            sale_price: req.body.sale_price,
+            retailer: req.body.retailer,
+            buy_now: req.body.buy_now,
+            image: req.body.image,
+            epic_id: req.body.epic_id,
+            username: req.user.username
+        });
+        await game.save();
+        //res.redirect("/");
+        console.log(game);
+
+    } catch (error) {
+        console.log(error);
+        //res.redirect("/");
+    }
+    
+    try{
+        const steam = new Steam({
+            gamename: req.body.gamename,
+            regular_price: req.body.regular_price,
+            sale_price: req.body.sale_price,
+            platform: req.body.platform,
+            buy_now: req.body.buy_now,
+            image: req.body.image,
+            epic_id: req.body.epic_id,
+            username: req.user.username
+        });
+        await steam.save();
+        //res.redirect("/");
+        console.log(steam);
+        console.log('Steam game added to database');
+        } catch(error) {
+        console.log('Steam game not added')
+    }
+  });
+
+
 
 router.get('/login', (req, res) => {
     res.render('login')
@@ -202,9 +257,35 @@ router.get('/edit-profile', (req, res) => {
     res.render('edit-profile')
 })
 
-router.get('/profile', checkAuthenticated, (req, res) => {
-    res.render('profile', { username: req.user.username })
+
+
+
+// updates for grabbing user liked games data from database to profile page
+const getLikedGames = async () => {
+
+    let epicgames = Epic.find({ username: req.body.username })
+    let steamgames = Steam.find({ username: req.body.username })
+
+    return { epicgames, steamgames }
+}
+
+router.get('/profile', checkAuthenticated, (req, res, next) => {
+    
+    getLikedGames().then(result => {
+        res.render('profile', {
+            username: req.user.username,
+            epicgames: result.epicgames,
+            steamgames: result.steamgames
+        })
+    })
 })
+
+router.delete("/unlike", (req, res) => {
+    req.unlike();
+    res.redirect("/profile");
+});
+
+
 
 router.get('/reset-password/:userId/:token', (req, res) => {
     res.render('reset-password', { userId: req.params.userId, token: req.params.token })
