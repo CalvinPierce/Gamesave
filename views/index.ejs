@@ -62,7 +62,12 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Like</td>
+                                            <td><% if(login){ %>
+                                                <%- include('./partials/epic-like'); %>
+                                                <% } else { %>
+                                                <%- include('./partials/like'); %>
+                                            <% } %>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -104,7 +109,12 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Like</td>
+                                            <td><% if(login){ %>
+                                                <%- include('./partials/more-epic-like'); %>
+                                                <% } else { %>
+                                                <%- include('./partials/like'); %>
+                                            <% } %>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -147,7 +157,12 @@
                                             </tr>
                                             <tr>
                                                 <th>Add to Likes</th>
-                                                <td>Like</td>
+                                                <td><% if(login){ %>
+                                                    <%- include('./partials/steam-like'); %>
+                                                    <% } else { %>
+                                                    <%- include('./partials/like'); %>
+                                                <% } %>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -184,7 +199,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Like</td>
+                                            <td><button class="liked">Like</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -221,7 +236,7 @@
                                         </tr>
                                         <tr>
                                             <th>Add to Likes</th>
-                                            <td>Likes</td>
+                                            <td><button class="liked">Like</button>s</td>
                                         </tr>
                                     </tbody>
                                 </table>
