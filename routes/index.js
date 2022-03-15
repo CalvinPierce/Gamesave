@@ -261,16 +261,16 @@ router.get('/edit-profile', (req, res) => {
 
 
 // updates for grabbing user liked games data from database to profile page
-const getLikedGames = async () => {
 
-    let epicgames = Epic.find({ username: req.body.username })
-    let steamgames = Steam.find({ username: req.body.username })
-
-    return { epicgames, steamgames }
-}
 
 router.get('/profile', checkAuthenticated, (req, res, next) => {
+    const getLikedGames = async () => {
+
+        let epicgames = await Epic.find({ username: req.body.username })
+        let steamgames = await Steam.find({ username: req.body.username })
     
+        return { epicgames, steamgames }
+    }
     getLikedGames().then(result => {
         res.render('profile', {
             username: req.user.username,
