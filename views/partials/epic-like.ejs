@@ -1,4 +1,4 @@
-<form action="/" class="liked" method="POST">
+<form action="/" class="epic-like" method="POST">
 
     <% items.forEach(function(item){%>
         <input type="hidden" name="gamename" value="<%= item.title %>" />
@@ -10,12 +10,12 @@
         <input type="hidden" name="epic_id" value="<%= item.productSlug %>" />
     <%} ); %>
 
-        <input type="submit" id="epiclike" value="Like" onclick="changebutton()"/>
+        <input type="submit" id="epiclike" value="Like" onclick="xchangebutton()"/>
 
 </form>
 
 <script>
-    function changebutton() {
+    function xchangebutton() {
         let x = document.getElementById("epiclike");
             if (x.value === "Like") {
                 x.value = "Unlike";

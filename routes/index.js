@@ -14,7 +14,6 @@ const {
     checkNotAuthenticated,
 } = require("../auth");
 const User = require('../models/User')
-//const Game = require('../models/Game')
 const Epic = require('../models/Epic')
 const Steam = require('../models/Steam')
 
@@ -47,45 +46,47 @@ router.post('/', checkAuthenticated, async (req, res) => {
     //console.log(liked);
     //const username = await User.findById(req.user.username);
     
-    try {
-        const game = new Epic({
-            gamename: req.body.gamename,
-            regular_price: req.body.regular_price,
-            sale_price: req.body.sale_price,
-            retailer: req.body.retailer,
-            buy_now: req.body.buy_now,
-            image: req.body.image,
-            epic_id: req.body.epic_id,
-            username: req.user.username
-        });
-        await game.save();
-        //res.redirect("/");
-        console.log(game);
-
-    } catch (error) {
-        console.log(error);
-        //res.redirect("/");
-    }
+    if(req.body.retailer == "Steam"){
+        try{
+            const steam = new Steam({
+                gamename: req.body.gamename,
+                regular_price: req.body.regular_price,
+                sale_price: req.body.sale_price,
+                platform: req.body.platform,
+                buy_now: req.body.buy_now,
+                image: req.body.image,
+                steam_id: req.body.steam_id,
+                username: req.user.username
+            });
+            await steam.save();
+            //res.redirect("/");
+            console.log(steam);
+            console.log('Steam game added to database');
+            } catch(error) {
+            console.log('Steam game not added')
+        }
+    }else{
+        try {
+            const game = new Epic({
+                gamename: req.body.gamename,
+                regular_price: req.body.regular_price,
+                sale_price: req.body.sale_price,
+                retailer: req.body.retailer,
+                buy_now: req.body.buy_now,
+                image: req.body.image,
+                epic_id: req.body.epic_id,
+                username: req.user.username
+            });
+            await game.save();
+            //res.redirect("/");
+            console.log(game);
     
-    try{
-        const steam = new Steam({
-            gamename: req.body.gamename,
-            regular_price: req.body.regular_price,
-            sale_price: req.body.sale_price,
-            platform: req.body.platform,
-            buy_now: req.body.buy_now,
-            image: req.body.image,
-            epic_id: req.body.epic_id,
-            username: req.user.username
-        });
-        await steam.save();
-        //res.redirect("/");
-        console.log(steam);
-        console.log('Steam game added to database');
-        } catch(error) {
-        console.log('Steam game not added')
+        } catch (error) {
+            console.log(error);
+            //res.redirect("/");
+        }
     }
-  });
+});
 
 
 

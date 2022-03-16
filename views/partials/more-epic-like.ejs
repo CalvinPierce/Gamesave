@@ -1,4 +1,4 @@
-<form action="/" class="liked" method="POST">
+<form action="/" class="more-epic-like" method="POST">
 
     <% future.forEach(function(item){%>
         <input type="hidden" name="gamename" value="<%= item.title %>" />
@@ -7,20 +7,21 @@
         <input type="hidden" name="retailer" value="Epic Games" />
         <input type="hidden" name="buy_now" value="https://www.epicgames.com/store/en-US/p/<%= item.urlSlug %>" />
         <input type="hidden" name="image" value="<%= item.keyImages[0].url %>" />
-        <input type="hidden" name="epic_id" value="<%= item.productSlug %>" />
+        <input type="hidden" name="epic_id" value="<%= item.urlSlug %>" />
     <%} ); %>
 
-    <input type="submit" id="moreepiclike" value="Like" onclick="changebutton()"/>
+    <input type="submit" id="moreepiclike" value="Like" onclick="ychangebutton()"/>
 
 </form>
 
 <script>
-    function changebutton() {
+    function ychangebutton() {
         let y = document.getElementById("moreepiclike");
-            if (y.value === "Like") {
-                y.value = "Unlike";
-            } else {
-                y.value = "Like";
-            }
+        if (y.value === "Like") {
+            y.value = "Unlike";
+            //document.querySelectorAll(".more-epic-like").submit();
+        } else {
+            y.value = "Like";
+        }
     }
 </script>
