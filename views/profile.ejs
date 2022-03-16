@@ -1,221 +1,100 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <title>Game Save</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/styles.css" />
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/css/styles.css" />
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 </head>
-
 <body>
     <%- include('./partials/user-header'); %>
         <!--Adds the header for a logged in user -->
         <section id="likes">
             <div class="container d-flex flex-column justify-content-center align-items-center">
-                <h1 class="brand">GameSave</h1>
-                <h1>Hello <%= username %></h1>
+                <p class="tagline">Welcome, <%= username %> </p>
                 <% if (messages) { %>
                     <p><%= messages.success %></p>
-                <% } %>
-                <h2>Profile: Welcome, <% username %> </h2>
+                <% } %> 
                 <a href="/edit-profile"><button type="button" class="btn btn-dark float-left">Edit Profile</button></a>
-                
-                
                 <p class="tagline">Liked Games:</p>
-                <% epicgames.forEach(function(item) { %>
-                <div class="card">
-                    <div class="card-horizontal">
-                        <div class="card-body">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Game</th>
-                                        <td><%= item.gamename %></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Regular Price</th>
-                                        <td><%= item.regular_price %></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sale Price</th>
-                                        <td><%= item.sale_price %></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Retailer</th>
-                                        <td><%= item.retailer %></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Buy Now</th>
-                                        <td><a href="https://www.epicgames.com/store/en-US/p/<%= item.epic_id %>" >Link</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Add to Likes</th>
-                                        <td>
-                                            <form action="/unlike?_method=DELETE" id="unlike" method="POST">
-                                                <input type="submit" value="Unlike" class="" onclick="unlike()"/>
-                                              </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="img-square-wrapper"><img class="card-img-right"
-                            src="<%= item.image %>" width="250" height="250" alt="Game Picture Unavailable"/>
-                        </div>
-                    </div>
-                </div>
+
+                <% items.forEach(function(item) { %>
+                    <% for(let i = 0; i < item.deals.length; i++) { %>
+                        <% if(item.deals[i].storeID == 1 || item.deals[i].storeID == 5 || item.deals[i].storeID == 8
+                         || item.deals[i].storeID == 13 || item.deals[i].storeID == 25 || item.deals[i].storeID == 31){ %>
+                            <div class="card">
+                                <div class="card-horizontal">
+                                    <div class="card-body">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Game</th>
+                                                    <td><%= item.info.title %></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Regular Price</th>
+                                                    <td class="retailPrice">$<%= item.deals[i].retailPrice %></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sale Price</th>
+                                                    <td class="salePrice">$<%= item.deals[i].price %></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Platform</th>
+                                                    <% if(item.deals[i].storeID == 1){ %>
+                                                        <td>Steam</td>
+                                                    <% } %>
+                                                    <% if(item.deals[i].storeID == 5){ %>
+                                                        <td>GameStop</td>
+                                                    <% } %>
+                                                    <% if(item.deals[i].storeID == 8){ %>
+                                                        <td>Origin</td>
+                                                    <% } %>
+                                                    <% if(item.deals[i].storeID == 13){ %>
+                                                        <td>Uplay</td>
+                                                    <% } %>
+                                                    <% if(item.deals[i].storeID == 25){ %>
+                                                        <td>Epic Games</td>
+                                                    <% } %>
+                                                    <% if(item.deals[i].storeID == 31){ %>
+                                                        <td>Blizzard</td>
+                                                    <% } %>
+                                                </tr>
+                                                <tr>
+                                                    <th>Buy Now</th>
+                                                    <td><a href="https://www.cheapshark.com/redirect?dealID={<%= item.deals[i].dealID %>}" >Link</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Unlike</th>
+                                                    <td>
+                                                        <form action="/unlike" id="unlike" method="POST">
+                                                            <input type="hidden" name="like_title" value="<%= item.info.title %>" />
+                                                            <button type="submit" class="btn btn-light" value="Unlike">Unlike</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="img-square-wrapper"><img class="card-img-right" src="<%= item.info.thumb %>" /></div>
+                                </div>
+                            </div>
+                        <% }; %>
+                    <% }; %>
                 <% }); %>
-
-
-                <% steamgames.forEach(function(item) { %>
-                    <div class="card">
-                        <div class="card-horizontal">
-                            <div class="card-body">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>Game</th>
-                                            <td><%= item.gamename %></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Regular Price</th>
-                                            <td><%= item.regular_price %></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sale Price</th>
-                                            <td><%= item.sale_price %></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Retailer</th>
-                                            <td><%= item.retailer %></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Buy Now</th>
-                                            <td><a href="https://store.steampowered.com/app/<%= item.steam_id %>" >Link</a></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Add to Likes</th>
-                                            <td>
-                                                <form action="/unlike?_method=DELETE" id="unlike" method="POST">
-                                                    <input type="submit" value="Unlike" class="" onclick="unlike()"/>
-                                                  </form>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="img-square-wrapper"><img class="card-img-right"
-                                src="<%= item.image %>" width="250" height="250" alt="Game Picture Unavailable"/>
-                            </div>
-                        </div>
-                    </div>
-                    <% }); %>
-
-
-                
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <p class="tagline">Hard-coded Liked Games:</p>
-                <div class="card">
-                    <div class="card-horizontal">
-                        <div class="card-body">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Game</th>
-                                        <td>Fallout 4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Regular Price</th>
-                                        <td>$26.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sale Price</th>
-                                        <td>$26.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Platform</th>
-                                        <td>Steam</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Buy Now</th>
-                                        <td>Link</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Add to Likes</th>
-                                        <td>Unlike</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="img-square-wrapper"><img class="card-img-right"
-                                src="./assets/img/Fallout_4_cover_art_3.png" /></div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-horizontal">
-                        <div class="card-body">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Game</th>
-                                        <td>Fifa 22</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Regular Price</th>
-                                        <td>$79.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sale Price</th>
-                                        <td>47.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Platform</th>
-                                        <td>Steam</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Buy Now</th>
-                                        <td>Link</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Add to Likes</th>
-                                        <td>Unlike</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="img-square-wrapper"><img class="card-img-right"
-                                src="./assets/img/FIFA-22-New_1.png" /></div>
-                    </div>
-                </div>
-
             </div>
         </section>
 </body>
-<script>
-    function unlike() {
-        let x = document.getElementById("unlike");
-            if (x.value === "Unlike") {
-                x.value = "Like";
-            } else {
-                x.value = "Unike";
-            }
-        document.getElementById("unlike").submit();
-    }
-</script>
+</html>

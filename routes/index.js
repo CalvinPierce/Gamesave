@@ -14,8 +14,7 @@ const {
     checkNotAuthenticated,
 } = require("../auth");
 const User = require('../models/User')
-const Epic = require('../models/Epic')
-const Steam = require('../models/Steam')
+const Like = require('../models/Like')
 
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
@@ -25,77 +24,23 @@ var user_key = api_info.KEY;
 var host = api_info.HOST;
 var host_key = api_info.HOST_KEY;
 
-router.get('/', (req, res, next) => {
-    getIndexGames().then(result => {
-        //getSteamFeatured()
+router.get('/', (req, res) => { //Home page
+    getIndexGames().then(result => { //Calls the function to retrieve epic free games and steam featured games
         res.render('index', {
-            items: result.freeNow,
+            items: result.freeNow, //loads to ejs under items variable
             future: result.freeNext,
             steam: result.games,
-            login: req.isAuthenticated()
+            login: req.isAuthenticated() //checks if user is logged in and store it under login variable
         })
     })
 })
-
-
-
-// updates for grabbing user liked games data from index page
-
-router.post('/', checkAuthenticated, async (req, res) => {
-    //const liked = {gamename: gamename, price: price, retailer: retailer, username: username};
-    //console.log(liked);
-    //const username = await User.findById(req.user.username);
-    
-    if(req.body.retailer == "Steam"){
-        try{
-            const steam = new Steam({
-                gamename: req.body.gamename,
-                regular_price: req.body.regular_price,
-                sale_price: req.body.sale_price,
-                platform: req.body.platform,
-                buy_now: req.body.buy_now,
-                image: req.body.image,
-                steam_id: req.body.steam_id,
-                username: req.user.username
-            });
-            await steam.save();
-            //res.redirect("/");
-            console.log(steam);
-            console.log('Steam game added to database');
-            } catch(error) {
-            console.log('Steam game not added')
-        }
-    }else{
-        try {
-            const game = new Epic({
-                gamename: req.body.gamename,
-                regular_price: req.body.regular_price,
-                sale_price: req.body.sale_price,
-                retailer: req.body.retailer,
-                buy_now: req.body.buy_now,
-                image: req.body.image,
-                epic_id: req.body.epic_id,
-                username: req.user.username
-            });
-            await game.save();
-            //res.redirect("/");
-            console.log(game);
-    
-        } catch (error) {
-            console.log(error);
-            //res.redirect("/");
-        }
-    }
-});
-
-
 
 router.get('/login', (req, res) => {
     res.render('login')
 })
 
 router.post("/login", checkNotAuthenticated, passport.authenticate("local", {
-    successRedirect: "/profile",
+    successRedirect: "/profile", 
     failureRedirect: "/login",
     failureFlash: true,
 })
@@ -135,7 +80,7 @@ router.delete("/logout", (req, res) => {
 });  
 
 router.get('/search', (req, res) => {
-    res.render('search')
+    res.render('search', { login: req.isAuthenticated() })
 })
 
 router.post('/result', (req, res) => {
@@ -145,7 +90,7 @@ router.post('/result', (req, res) => {
         url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
         params: {
             lowerPrice: '-1',
-            title: searchTitle,
+            title: searchTitle, //Search api based on given title from user
             output: 'json',
             sortBy: 'Price',
             pageSize: '60',
@@ -160,11 +105,23 @@ router.post('/result', (req, res) => {
     axios.request(options).then(function (result) {
         res.render('results', {
             items: result.data,
-            searchName: searchTitle
+            searchName: searchTitle,
+            login: req.isAuthenticated()
         });
     }).catch(function (error) {
         console.error(error);
     });
+});
+
+router.post('/like', checkAuthenticated, async (req, res) => {
+    const newLike = new Like({
+        userId: req.user._id,
+        gameId: req.body.gameID,
+        gameTitle: req.body.gameTitle
+    })
+    await newLike.save()
+    req.flash("success", "Game added to likes");
+    res.redirect("/profile");
 });
 
 const getFreeGames = async () => {
@@ -176,28 +133,13 @@ const getFreeGames = async () => {
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
         if (element.promotions) {
             if (element.promotions.promotionalOffers.length != 0) {
-                freeNow = element
+                freeNow.push(element)
             } else {
-                freeNext = element
+                freeNext.push(element)
             }
         }
     })
-    console.log(freeNext)
-    //freeNow = data.data.data.Catalog.searchStore.elements[0]
-    //freeNext = data.data.data.Catalog.searchStore.elements[1]
-    //console.log(freeNow)
-    //console.log(freeNext)
     return { freeNow, freeNext }
-}
-
-const getSteamFeatured = async () => {
-    let games = []
-    const data = await axios.get(
-        'https://store.steampowered.com/api/featuredcategories?cc=ca'
-    );
-    games = data.data.specials.items
-    console.log(games)
-    return { games }
 }
 
 const getIndexGames = async () => {
@@ -211,7 +153,6 @@ const getIndexGames = async () => {
     const data = await axios.get(
         `https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=CA`
     );
-    //console.log(data.data.data.Catalog.searchStore.elements)
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
         if (element.promotions) {
             if (element.promotions.promotionalOffers.length != 0) {
@@ -221,72 +162,82 @@ const getIndexGames = async () => {
             }
         }
     })
-    //console.log(freeNow)
     games = steam.data.specials.items
     return { games, freeNow, freeNext }
 }
 
-// router.get('/test', async (req, res) => {
-//     getFreeGames().then(result => {
-//         //console.log(result.freeNow)
-//         res.render('test', {
-//             items: result.freeNow,
-//             future: result.freeNext
-//         })
-//     })
-// })
-
-// router.get('/test', async (req, res) => {
-//     // getSteamFeatured().then(result => {
-//     //     res.render('test', {
-//     //         items: result.games
-//     //     })
-//     // })
-//     let games = []
-//     getSteamFeatured().then(result => {
-//         // res.render('test', {
-//         //     items: result.games
-//         // })
-//         //console.log(result.games)
-//         games = result.games
-//     })
-//     console.log(games)
-//     //res.render('test')
-// });
-
-router.get('/edit-profile', (req, res) => {
-    res.render('edit-profile')
-})
-
-
-
-
-// updates for grabbing user liked games data from database to profile page
-
-
-router.get('/profile', checkAuthenticated, (req, res, next) => {
-    const getLikedGames = async () => {
-
-        let epicgames = await Epic.find({ username: req.body.username })
-        let steamgames = await Steam.find({ username: req.body.username })
-    
-        return { epicgames, steamgames }
-    }
-    getLikedGames().then(result => {
-        res.render('profile', {
-            username: req.user.username,
-            epicgames: result.epicgames,
-            steamgames: result.steamgames
+router.get('/free-games', (req, res) => {
+    getFreeGames().then(result => {
+        res.render('free-games', {
+            items: result.freeNow,
+            future: result.freeNext,
+            login: req.isAuthenticated()
         })
     })
 })
 
-router.delete("/unlike", (req, res) => {
-    req.unlike();
+router.get('/edit-profile', checkAuthenticated, async (req, res) => {
+    const user = await User.findById(req.user._id)
+    res.render('edit-profile', { username: user.username, email: user.email })
+})
+
+router.post('/edit-profile', checkAuthenticated, async (req, res) => {
+    let user = await User.findById(req.user._id);
+    if(req.body.email == null || req.body.email == ""){
+        user.email = user.email;
+    } else {
+        user.email = req.body.email;
+    }
+    if(req.body.username == null || req.body.username == ""){
+        user.username = user.username
+    } else {
+        user.username = req.body.username;
+    }
+    await user.save();
+    req.flash("success", "Profile information updated")
+    res.redirect("/profile");
+})
+
+router.get('/profile', checkAuthenticated, async (req, res, next) => {
+    const user = await User.findById(req.user._id); //Grabs the current user from the database
+    let likedgames = await Like.find({ userId: user._id }) //Grabs the users liked games
+    let gameIds = []
+    for (let game of likedgames){
+        gameIds.push(game.gameId) //Stores all the users liked games game ids in an array
+    }
+    let ids = gameIds.join() //Puts the game ids into a comma seperated string
+    let data = [];
+
+    // Queries the API based upon the games the user has liked
+    var options = {
+        method: 'GET',
+        url: 'https://cheapshark-game-deals.p.rapidapi.com/games',
+        params: {ids: ids},
+        headers: {
+            host: token,
+            'x-rapidapi-key': user_key
+        }
+      };
+      
+      axios.request(options).then(function (result) {
+          for (let id of gameIds){
+            data.push(result.data[id]) //Stores the response in an array for templare iteration
+          }
+          res.render('profile', {
+            items: data,
+            username: req.user.username,
+            login: req.isAuthenticated()
+        });
+      }).catch(function (error) {
+          console.error(error);
+      });
+})
+
+router.post("/unlike", async (req, res) => {
+    let like = await Like.deleteOne({ "gameTitle": req.body.like_title }) //Removes the liked game from the database
+    req.flash("success", "Game removed from likes");
     res.redirect("/profile");
 });
-
-
 
 router.get('/reset-password/:userId/:token', (req, res) => {
     res.render('reset-password', { userId: req.params.userId, token: req.params.token })
@@ -302,7 +253,7 @@ router.post('/reset-password', async (req, res) => {
             userId: user._id,
             token: req.body.token,
         });
-        if (!token){
+        if (!token){ //Token expires after 1 hour
             req.flash("error", "Password reset expired please send new email");
             res.redirect("/request-reset-password");
         } else {
@@ -318,7 +269,6 @@ router.post('/reset-password', async (req, res) => {
             }
         }
     }
-    res.render('reset-password')
 })
 
 router.get('/request-reset-password', (req, res) => {
@@ -344,7 +294,6 @@ router.post('/request-reset-password', async (req, res) => {
         req.flash("success", "Password reset link sent to your email.");
         res.redirect("/request-reset-password");
     }
-    res.render('request-reset-password')
 })
 
 router.post('/change-password', checkAuthenticated, async (req, res) => {
@@ -375,64 +324,5 @@ router.post('/change-password', checkAuthenticated, async (req, res) => {
 router.get('/change-password', checkAuthenticated, async (req, res) => {
     res.render('change-password')
 })
-
-// app.route('/login')
-// .get((req, res) => {
-//     res.render('login')
-// })
-
-// app.route('/test')
-// .get((req, res) => {
-//     var options = {
-//         method: 'GET',
-//         url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
-//         params: {
-//           title: 'fallout new vegas',
-//           output: 'json',
-//           sortBy: 'Store',
-//           pageSize: '60',
-//           storeID: '1,4,5,8,13,25'
-//         },
-//         headers: {
-//             host: token,
-//             'x-rapidapi-key': user_key
-//         }
-//       };
-
-//       axios.request(options).then(function (result) {
-//           res.render('test', {
-//               items: result.data
-//           });
-//       }).catch(function (error) {
-//           console.error(error);
-//       });
-//   });
-
-
-// router.get('/test', (req, res) => {
-//         var options = {
-//             method: 'GET',
-//             url: 'https://cheapshark-game-deals.p.rapidapi.com/deals',
-//             params: {
-//               title: 'fallout new vegas',
-//               output: 'json',
-//               sortBy: 'Store',
-//               pageSize: '60',
-//               storeID: '1,4,5,8,13,25'
-//             },
-//             headers: {
-//                 host: token,
-//                 'x-rapidapi-key': user_key
-//             }
-//           };
-
-//           axios.request(options).then(function (result) {
-//               res.render('test', {
-//                   items: result.data
-//               });
-//           }).catch(function (error) {
-//               console.error(error);
-//           });
-//       });
 
 module.exports = router;
