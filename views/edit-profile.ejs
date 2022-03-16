@@ -23,15 +23,15 @@
         <section id="profile">
             <div class="container d-flex flex-column justify-content-center align-items-center">
                 <h1>Profile Information</h1>
-                <form id="profile" action="#" class="form-group">
+                <form id="profile" action="/edit-profile" method="POST" class="form-group">
                     <table class="profile">
                         <tr>
                             <td><label for="email">Email:</label></td>
-                            <td><input type="email" id="email" name="email" placeholder="johndoe@email.ca" /><br></td>
+                            <td><input type="email" id="email" name="email" placeholder="<%= email %>" /><br></td>
                         </tr>
                         <tr>
                             <td><label for="username">Username:</label></td>
-                            <td><input type="text" id="username" name="username" placeholder="JohnDoe" /><br></td>
+                            <td><input type="text" id="username" name="username" placeholder="<%= username %>" /><br></td>
                         </tr>
                     </table>
                     <div style="text-align: center;"><button type="submit" class="btn btn-dark"

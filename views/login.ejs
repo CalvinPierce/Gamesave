@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <title>Game Save</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <link rel="icon" href="../logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,36 +19,36 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </head>
-
 <body>
-        <%- include('./partials/non-user-header'); %>
-        <!--Adds the header for a non logged in user -->
-        <section id="login">
-            <div class="container d-flex flex-column justify-content-center align-items-center">
-                <h1>Sign In</h1>
-                <% if (messages) { %>
-                    <p><%= messages.error %></p>
-                    <p><%= messages.success %></p>
-                <% } %>
-                <form id="loginform" action="/login" method="POST" class="form-group">
-                    <input type="email" id="email" name="email" placeholder="email@email.com" /><br>
-                    <input type="password" id="password" name="password" placeholder="Password" /><br>
-                    <input type="checkbox" id="showpass" onclick="showPassword()" name="showpass" />
-                    <label for="showpass">Show Password</label><br>
-                    <button type="submit" class="btn btn-light" value="Submit">Submit</button>
-                </form>
-                <a href="/register"><button type="button" class="btn btn-dark">Register</button></a>
-                <a href="/request-reset-password"><button type="button" class="btn btn-dark">Reset Password</button></a>
-            </div>
-        </section>
-        <script>
-            function showPassword() {
-                let x = document.getElementById("password");
-                if (x.type === "password") {
-                    x.type = "text";
-                } else {
-                    x.type = "password";
-                }
+    <%- include('./partials/non-user-header'); %>
+    <!--Adds the header for a non logged in user -->
+    <section id="login">
+        <div class="container d-flex flex-column justify-content-center align-items-center">
+            <h1>Sign In</h1>
+            <% if (messages) { %>
+                <p><%= messages.error %></p>
+                <p><%= messages.success %></p>
+            <% } %>
+            <form id="loginform" action="/login" method="POST" class="form-group">
+                <input type="email" id="email" name="email" placeholder="email@email.com" /><br>
+                <input type="password" id="password" name="password" placeholder="Password" /><br>
+                <input type="checkbox" id="showpass" onclick="showPassword()" name="showpass" />
+                <label for="showpass">Show Password</label><br>
+                <button type="submit" class="btn btn-light" value="Submit">Submit</button>
+            </form>
+            <a href="/register"><button type="button" class="btn btn-dark">Register</button></a>
+            <a href="/request-reset-password"><button type="button" class="btn btn-dark">Reset Password</button></a>
+        </div>
+    </section>
+    <script>
+        function showPassword() {
+            let x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
             }
-        </script>
+        }
+    </script>
 </body>
+</html>

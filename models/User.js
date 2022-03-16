@@ -4,12 +4,12 @@ var passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: false,
     unique: [true, "Username already taken"]
   },
   email: {
     type: String,
-    required: true,
+    required: false,
     validate: function(value) {
       var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
       return emailRegex.test(value);
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
