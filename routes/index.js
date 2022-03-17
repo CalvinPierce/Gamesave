@@ -240,6 +240,9 @@ router.post("/unlike", async (req, res) => {
 });
 
 router.get('/reset-password/:userId/:token', (req, res) => {
+    if(req.isAuthenticated()){
+        req.logOut();
+    }
     res.render('reset-password', { userId: req.params.userId, token: req.params.token })
 })
 
