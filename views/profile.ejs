@@ -27,13 +27,14 @@
                 <p class="tagline">Welcome, <%= username %> </p>
                 <% if (messages) { %>
                     <p><%= messages.success %></p>
+                    <p><%= messages.error %></p>
                 <% } %> 
-                <a href="/edit-profile"><button type="button" class="btn btn-dark float-left">Edit Profile</button></a>
+                <a href="/edit-profile/<%= userId %>"><button type="button" class="btn btn-dark float-left">Edit Profile</button></a>
                 <p class="tagline">Liked Games:</p>
 
                 <% items.forEach(function(item) { %>
                     <% for(let i = 0; i < item.deals.length; i++) { %>
-                        <% if(item.deals[i].storeID == 1 || item.deals[i].storeID == 5 || item.deals[i].storeID == 8
+                        <% if(item.deals[i].storeID == 1 || item.deals[i].storeID == 8
                          || item.deals[i].storeID == 13 || item.deals[i].storeID == 25 || item.deals[i].storeID == 31){ %>
                             <div class="card">
                                 <div class="card-horizontal">
@@ -56,9 +57,6 @@
                                                     <th>Platform</th>
                                                     <% if(item.deals[i].storeID == 1){ %>
                                                         <td>Steam</td>
-                                                    <% } %>
-                                                    <% if(item.deals[i].storeID == 5){ %>
-                                                        <td>GameStop</td>
                                                     <% } %>
                                                     <% if(item.deals[i].storeID == 8){ %>
                                                         <td>Origin</td>

@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  type: {
+    type: String,
+    enum: ['admin', 'customer'],
+    default: 'customer'
+  },
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -94,7 +94,7 @@ router.post('/result', (req, res) => {
             output: 'json',
             sortBy: 'Price',
             pageSize: '60',
-            storeID: '1,4,5,8,13,25,31'
+            storeID: '1,8,13,25,31'
         },
         headers: {
             host: token,
@@ -176,13 +176,13 @@ router.get('/free-games', (req, res) => {
     })
 })
 
-router.get('/edit-profile', checkAuthenticated, async (req, res) => {
-    const user = await User.findById(req.user._id)
-    res.render('edit-profile', { username: user.username, email: user.email })
+router.get('/edit-profile/:id', checkAuthenticated, async (req, res) => {
+    const user = await User.findById(req.params.id)
+    res.render('edit-profile', { username: user.username, email: user.email, type: user.type, userId: user._id })
 })
 
-router.post('/edit-profile', checkAuthenticated, async (req, res) => {
-    let user = await User.findById(req.user._id);
+router.post('/edit-profile/:id', checkAuthenticated, async (req, res) => {
+    let user = await User.findById(req.params.id);
     if(req.body.email == null || req.body.email == ""){
         user.email = user.email;
     } else {
@@ -226,12 +226,49 @@ router.get('/profile', checkAuthenticated, async (req, res, next) => {
           res.render('profile', {
             items: data,
             username: req.user.username,
-            login: req.isAuthenticated()
+            login: req.isAuthenticated(),
+            userId: user._id,
         });
       }).catch(function (error) {
           console.error(error);
       });
 })
+
+router.get('/admin-settings', checkAuthenticated, async (req, res) => {
+    let currUser = await User.findById(req.user._id)
+    if (currUser.type !== 'admin'){
+        req.flash("error", "Do not have permission to view this page")
+        res.redirect("/profile");
+    } else {
+        let users = await User.find();
+        res.render('admin-settings', {
+            users: users
+        });
+    }
+});
+
+
+router.post('/user-search', checkAuthenticated, async (req, res) => {
+    let currUser = await User.findById(req.user._id);
+    if (currUser.type !== 'admin'){
+        req.flash("error", "Do not have permission to view this page")
+        res.redirect("/profile");
+    } else {
+    let users = await User.find({$or: [{ 'username': { $regex:  req.body.term, $options: 'i'} }, { 'email': { $regex:  req.body.term, $options: 'i'} }] },
+    );
+        res.render('admin-settings-results', {
+            users: users,
+            searchName: req.body.term
+        });
+    }
+})
+
+router.post('/delete/:id', async (req, res) => {
+    let userToDelete = await User.findByIdAndDelete(req.params.id);
+    req.flash("success", "User deleted");
+    res.redirect("/admin-settings");
+});
+
 
 router.post("/unlike", async (req, res) => {
     let like = await Like.deleteOne({ "gameTitle": req.body.like_title }) //Removes the liked game from the database

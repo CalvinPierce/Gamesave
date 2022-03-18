@@ -23,7 +23,7 @@
         <section id="profile">
             <div class="container d-flex flex-column justify-content-center align-items-center">
                 <h1>Profile Information</h1>
-                <form id="profile" action="/edit-profile" method="POST" class="form-group">
+                <form id="profile" action="/edit-profile/<%= userId %>" method="POST" class="form-group">
                     <table class="profile">
                         <tr>
                             <td><label for="email">Email:</label></td>
@@ -38,7 +38,9 @@
                             value="Update Information">Update Information</button></div>
                 </form>
                 <a href="/change-password"><button class="btn btn-dark">Change Password</button></a>
-                <a href="users.html"><button class="btn btn-dark">Admin Settings</button></a>
+                <% if(type == 'admin'){ %>
+                    <a href="/admin-settings"><button class="btn btn-dark">Admin Settings</button></a>
+                <% } %>
             </div>
         </section>
 </body>

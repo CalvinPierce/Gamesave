@@ -34,7 +34,6 @@
                 <input type="checkbox" class="css-checkbox" id="platform_steam" name="platform_steam" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_steam">Steam</label><br>
                 <input type="checkbox" class="css-checkbox" id="platform_epic" name="platform_epic" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_epic">Epic Games</label><br>
                 <input type="checkbox" class="css-checkbox" id="platform_origin" name="platform_origin" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_origin">Origin</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_gamestop" name="platform_gamestop" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_gamestop">GameStop</label><br>
                 <input type="checkbox" class="css-checkbox" id="platform_uplay" name="platform_uplay" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_uplay">Uplay</label><br>
                 <button type="submit" class="btn btn-dark" value="Use Filters">Use Filters</button>
             </form>
@@ -47,7 +46,13 @@
             </div>
         </section>
 
+
         <section id="results">
+            <h1>Search New Game</h1>
+            <form id="search" action="/result" class="form-group"  method="post">
+                <input type="text" id="terms" name="game" placeholder="Enter Game Name Here" />
+                <div><button type="submit" class="btn btn-dark" value="Search">Search</button></div>
+            </form>
             <h1>Results for: "<%- searchName %>"</h1>
         <% items.forEach(function(item) { %>
 
@@ -72,9 +77,6 @@
                                     <th>Platform</th>
                                     <% if(item.storeID == 1){ %>
                                         <td>Steam</td>
-                                    <% } %>
-                                    <% if(item.storeID == 5){ %>
-                                        <td>GameStop</td>
                                     <% } %>
                                     <% if(item.storeID == 8){ %>
                                         <td>Origin</td>
