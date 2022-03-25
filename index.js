@@ -11,6 +11,7 @@ const {
   checkNotAuthenticated,
 } = require("./auth");
 const indexRouter = require('./routes/index');
+var PORT = process.env.port || 8081
 
 var app = express()
 
@@ -57,8 +58,8 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => {
-    app.listen(8081, () => {   
-        console.log(`Server running at port 8081`)
+    app.listen(PORT, () => {   
+        console.log(`Server running at ${PORT}`)
     });
   });
 
