@@ -11,7 +11,7 @@ const {
   checkNotAuthenticated,
 } = require("./auth");
 const indexRouter = require('./routes/index');
-var PORT = process.env.port || 8081
+var PORT = process.env.PORT || 8081
 
 var app = express()
 
