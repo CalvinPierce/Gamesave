@@ -132,10 +132,13 @@ const getFreeGames = async () => {
     );
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
         if (element.promotions) {
-            if (element.promotions.promotionalOffers.length != 0) {
+            if(element.price.totalPrice.discountPrice === 0) { 
                 freeNow.push(element)
             } else {
-                freeNext.push(element)
+                if(element.promotions?.upcomingPromotionalOffers[0]?.promotionalOffers[0]?.discountSetting?.discountPercentage === 0){
+                    freeNext.push(element)
+                }
+                
             }
         }
     })

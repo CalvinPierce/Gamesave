@@ -26,102 +26,76 @@
     <% } else { %>
         <%- include('./partials/non-user-header'); %>
     <% } %>
-    <div class="divider">
-        <section id="filters">
-            <h3>Filters</h3>
-            <form id="filters" action="#" class="form-group">
-                <h4>Platform:</h4>
-                <input type="checkbox" class="css-checkbox" id="platform_steam" name="platform_steam" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_steam">Steam</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_epic" name="platform_epic" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_epic">Epic Games</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_origin" name="platform_origin" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_origin">Origin</label><br>
-                <input type="checkbox" class="css-checkbox" id="platform_uplay" name="platform_uplay" checked/>&nbsp;<label class="css-label lite-gray-check" for="platform_uplay">Uplay</label><br>
-                <button type="submit" class="btn btn-dark" value="Use Filters">Use Filters</button>
-            </form>
-            <h4>Currency:</h4>
-            <div id="currency">
-            <input type="checkbox" class="css-checkbox" id="usd" name="currency[]" checked/>&nbsp;<label class="css-label lite-gray-check" for="usd">USD</label><br>
-            <input type="checkbox" class="css-checkbox" id="cad" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="cad">CAD</label><br>
-            <input type="checkbox" class="css-checkbox" id="eur" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="eur">EUR</label><br>
-            <input type="checkbox" class="css-checkbox" id="gbp" name="currency[]" />&nbsp;<label class="css-label lite-gray-check" for="gbp">GBP</label><br>
-            </div>
-        </section>
-
-
         <section id="results">
-            <h1>Search New Game</h1>
-            <form id="search" action="/result" class="form-group"  method="post">
-                <input type="text" id="terms" name="game" placeholder="Enter Game Name Here" />
-                <div><button type="submit" class="btn btn-dark" value="Search">Search</button></div>
-            </form>
-            <h1>Results for: "<%- searchName %>"</h1>
-        <% items.forEach(function(item) { %>
+            <div class="container d-flex flex-column justify-content-center align-items-center">
+                <h1>Search New Game</h1>
+                <form id="search" action="/result" class="form-group"  method="post">
+                    <input type="text" id="terms" name="game" placeholder="Enter Game Name Here" />
+                    <div><button type="submit" class="btn btn-dark" value="Search">Search</button></div>
+                </form>
+                <h1>Results for: "<%- searchName %>"</h1>
+                <% items.forEach(function(item) { %>
 
-            <div class="card">
-                <div class="card-horizontal">
-                    <div class="card-body">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Game</th>
-                                    <td><%= item.title %></td>
-                                </tr>
-                                <tr>
-                                    <th>Regular Price</th>
-                                    <td class="retailPrice">$<%= item.normalPrice %></td>
-                                </tr>
-                                <tr>
-                                    <th>Sale Price</th>
-                                    <td class="salePrice">$<%= item.salePrice %></td>
-                                </tr>
-                                <tr>
-                                    <th>Platform</th>
-                                    <% if(item.storeID == 1){ %>
-                                        <td>Steam</td>
-                                    <% } %>
-                                    <% if(item.storeID == 8){ %>
-                                        <td>Origin</td>
-                                    <% } %>
-                                    <% if(item.storeID == 13){ %>
-                                        <td>Uplay</td>
-                                    <% } %>
-                                    <% if(item.storeID == 25){ %>
-                                        <td>Epic Games</td>
-                                    <% } %>
-                                    <% if(item.storeID == 31){ %>
-                                        <td>Blizzard</td>
-                                    <% } %>
-                                </tr>
-                                <tr>
-                                    <th>Buy Now</th>
-                                    <td><a href="https://www.cheapshark.com/redirect?dealID={<%= item.dealID %>}" >Link</a></td>
-                                </tr>
-                                <tr>
-                                    <th>Add to Likes</th>
-                                    <td><% if(login){ %>
-                                        <form action="/like" class="liked" method="POST">
-                                            <input type="hidden" name="gameID" value="<%= item.gameID %>" />
-                                            <input type="hidden" name="gameTitle" value="<%= item.title %>" />
-                                            <button type="submit" class="btn btn-light" value="Like">Like</button>
-                                        
-                                        </form>
-                                        <% } else { %>
-                                        Login to add to likes
-                                    <% } %></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="card">
+                    <div class="card-horizontal">
+                        <div class="card-body">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Game</th>
+                                        <td><%= item.title %></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Regular Price</th>
+                                        <td class="retailPrice">$<%= item.normalPrice %></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sale Price</th>
+                                        <td class="salePrice">$<%= item.salePrice %></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Platform</th>
+                                        <% if(item.storeID == 1){ %>
+                                            <td>Steam</td>
+                                        <% } %>
+                                        <% if(item.storeID == 8){ %>
+                                            <td>Origin</td>
+                                        <% } %>
+                                        <% if(item.storeID == 13){ %>
+                                            <td>Uplay</td>
+                                        <% } %>
+                                        <% if(item.storeID == 25){ %>
+                                            <td>Epic Games</td>
+                                        <% } %>
+                                        <% if(item.storeID == 31){ %>
+                                            <td>Blizzard</td>
+                                        <% } %>
+                                    </tr>
+                                    <tr>
+                                        <th>Buy Now</th>
+                                        <td><a href="https://www.cheapshark.com/redirect?dealID={<%= item.dealID %>}" >Link</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Add to Likes</th>
+                                        <td><% if(login){ %>
+                                            <form action="/like" class="liked" method="POST">
+                                                <input type="hidden" name="gameID" value="<%= item.gameID %>" />
+                                                <input type="hidden" name="gameTitle" value="<%= item.title %>" />
+                                                <button type="submit" class="btn btn-light" value="Like">Like</button>
+                                            
+                                            </form>
+                                            <% } else { %>
+                                            Login to add to likes
+                                        <% } %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="img-square-wrapper"><img class="card-img-right" src="<%= item.thumb %>" /></div>
                     </div>
-                    <div class="img-square-wrapper"><img class="card-img-right" src="<%= item.thumb %>" /></div>
                 </div>
+                <% }); %>
             </div>
-            <% }); %>
         </section>
-      </div>
-</body>
-<script>
-
-$('input[type="checkbox"]').on('change', function() {
-    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
-});
-</script>   
+</body> 
 </html>
