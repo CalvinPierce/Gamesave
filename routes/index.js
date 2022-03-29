@@ -35,7 +35,7 @@ router.get('/', (req, res) => { //Home page
     })
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login')
 })
 
