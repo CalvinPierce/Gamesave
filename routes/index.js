@@ -132,7 +132,7 @@ const getFreeGames = async () => {
     );
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
         if (element.promotions) {
-            if(element.price.totalPrice.discountPrice === 0) { 
+            if(element.price.totalPrice.discountPrice === 0 && element.promotions?.upcomingPromotionalOffers[0]?.promotionalOffers[0]?.discountSetting?.discountPercentage !== 0) { 
                 freeNow.push(element)
             } else {
                 if(element.promotions?.upcomingPromotionalOffers[0]?.promotionalOffers[0]?.discountSetting?.discountPercentage === 0){
@@ -158,7 +158,7 @@ const getIndexGames = async () => {
     );
     data.data.data.Catalog.searchStore.elements.forEach((element) => {
         if (element.promotions) {
-            if(element.price.totalPrice.discountPrice === 0) { 
+            if(element.price.totalPrice.discountPrice === 0 && element.promotions?.upcomingPromotionalOffers[0]?.promotionalOffers[0]?.discountSetting?.discountPercentage !== 0) { 
                 freeNow.push(element)
             } else {
                 if(element.promotions?.upcomingPromotionalOffers[0]?.promotionalOffers[0]?.discountSetting?.discountPercentage === 0){
